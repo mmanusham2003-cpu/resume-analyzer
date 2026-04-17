@@ -5,8 +5,17 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/build",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/api", "destination": "/api" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "https://resume-analyzer-2-jsq6.onrender.com/api/$1"
+    },
+    {
+      "source": "/api",
+      "destination": "https://resume-analyzer-2-jsq6.onrender.com/api"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
