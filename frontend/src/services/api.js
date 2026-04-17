@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// In production (Vercel), frontend & API share the same origin → use relative "/api"
+// In local development, CRA proxy in package.json forwards /api to localhost:5000
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },

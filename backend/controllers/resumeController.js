@@ -13,19 +13,19 @@ const uploadResume = async (req, res) => {
 
     const fileType = req.file.mimetype.includes("pdf") ? "pdf" : "docx";
 
-    // Create resume record in DB
+    // Create resume record in DB (no filePath in serverless)
     const resume = await Resume.create({
       user: req.user._id,
       fileName: req.file.originalname,
-      filePath: req.file.path,
+      filePath: "serverless-upload",
       fileType,
       jobDescription: req.body.jobDescription || "",
       status: "uploaded",
     });
 
-    // Parse text in background
+    // Parse text from buffer (in-memory)
     try {
-      const extractedText = await parseResume(req.file.path, fileType);
+      const extractedText = await parseResume(req.file.buffer, fileType);
       resume.extractedText = extractedText;
       resume.status = "parsed";
       await resume.save();
@@ -139,12 +139,6 @@ const deleteResume = async (req, res) => {
 
     if (resume.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Not authorized" });
-    }
-
-    // Delete file from disk
-    const fs = require("fs");
-    if (resume.filePath && fs.existsSync(resume.filePath)) {
-      fs.unlinkSync(resume.filePath);
     }
 
     await Resume.findByIdAndDelete(req.params.id);

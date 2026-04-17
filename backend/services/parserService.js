@@ -1,15 +1,12 @@
-const fs = require('fs');
-const path = require('path');
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 
 /**
- * Extract text from a PDF file
+ * Extract text from a PDF buffer
  */
-const parsePDF = async (filePath) => {
+const parsePDF = async (buffer) => {
   try {
-    const dataBuffer = fs.readFileSync(filePath);
-    const data = await pdfParse(dataBuffer);
+    const data = await pdfParse(buffer);
     return data.text;
   } catch (error) {
     console.error('PDF parse error:', error.message);
@@ -18,11 +15,11 @@ const parsePDF = async (filePath) => {
 };
 
 /**
- * Extract text from a DOCX file
+ * Extract text from a DOCX buffer
  */
-const parseDOCX = async (filePath) => {
+const parseDOCX = async (buffer) => {
   try {
-    const result = await mammoth.extractRawText({ path: filePath });
+    const result = await mammoth.extractRawText({ buffer });
     return result.value;
   } catch (error) {
     console.error('DOCX parse error:', error.message);
@@ -31,18 +28,16 @@ const parseDOCX = async (filePath) => {
 };
 
 /**
- * Parse resume based on file type
+ * Parse resume from buffer based on file type
  */
-const parseResume = async (filePath, fileType) => {
-  const ext = fileType || path.extname(filePath).replace('.', '').toLowerCase();
-
-  switch (ext) {
+const parseResume = async (buffer, fileType) => {
+  switch (fileType) {
     case 'pdf':
-      return await parsePDF(filePath);
+      return await parsePDF(buffer);
     case 'docx':
-      return await parseDOCX(filePath);
+      return await parseDOCX(buffer);
     default:
-      throw new Error(`Unsupported file type: ${ext}`);
+      throw new Error(`Unsupported file type: ${fileType}`);
   }
 };
 
