@@ -4,7 +4,7 @@
   "description": "Resume Analyzer — AI-powered resume review (Vercel Serverless)",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
