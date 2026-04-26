@@ -28,3 +28,5 @@ npm-debug.log*
 # Uploads (keep the directory, ignore contents)
 backend/uploads/*
 !backend/uploads/.gitkeep
+
+.vercel
