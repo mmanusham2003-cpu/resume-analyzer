@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error.message, error.stack);
-    res.status(500).json({ message: 'Server error during login', error: error.message, stack: error.stack?.split('\n').slice(0, 3) });
+    res.status(500).json({ message: 'Server error during login' });
   }
 };
 
