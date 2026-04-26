@@ -50,6 +50,17 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Resume Analyzer API is running 🚀" });
 });
 
+// Detailed health check
+app.get("/health", (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const states = { 0: "disconnected", 1: "connected", 2: "connecting", 3: "disconnecting" };
+  res.json({
+    status: dbState === 1 ? "ok" : "error",
+    database: states[dbState] || "unknown",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
