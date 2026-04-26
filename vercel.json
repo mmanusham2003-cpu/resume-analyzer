@@ -1,8 +1,7 @@
 {
   "version": 2,
-  "framework": null,
-  "installCommand": "cd frontend && npm install --legacy-peer-deps",
-  "buildCommand": "cd frontend && npm run build",
+  "installCommand": "npm install --prefix frontend --legacy-peer-deps",
+  "buildCommand": "npm run build --prefix frontend",
   "outputDirectory": "frontend/build",
   "rewrites": [
     {
@@ -12,14 +11,6 @@
     {
       "source": "/(.*)",
       "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
     }
   ]
 }
