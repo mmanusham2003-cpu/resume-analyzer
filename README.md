@@ -1,194 +1,114 @@
 # 📄 Resume Analyzer — AI-Powered Resume Review
 
-A full-stack web application that analyzes resumes using Google Gemini AI. Upload your PDF or DOCX resume, get an instant score, section-by-section feedback, keyword analysis, and actionable improvement suggestions.
-
----
-
-## 🏗️ Project Structure
-
-```
-Resume-Analyzer/
-│
-├── backend/
-│   ├── config/
-│   │   └── db.js                  # MongoDB connection
-│   │
-│   ├── controllers/
-│   │   ├── authController.js      # Auth (register/login/me)
-│   │   ├── resumeController.js    # Resume CRUD & analysis
-│   │   └── aiController.js        # AI suggestions & job matching
-│   │
-│   ├── middleware/
-│   │   ├── authMiddleware.js      # JWT token verification
-│   │   └── uploadMiddleware.js    # Multer file upload config
-│   │
-│   ├── models/
-│   │   ├── User.js                # User schema
-│   │   └── Resume.js              # Resume schema with analysis
-│   │
-│   ├── routes/
-│   │   ├── authRoutes.js          # /api/auth/*
-│   │   ├── resumeRoutes.js        # /api/resumes/*
-│   │   └── aiRoutes.js            # /api/ai/*
-│   │
-│   ├── services/
-│   │   ├── parserService.js       # PDF/DOCX text extraction
-│   │   └── aiService.js           # Gemini AI integration
-│   │
-│   ├── utils/
-│   │   └── scoreCalculator.js     # Weighted score computation
-│   │
-│   ├── uploads/                   # Uploaded resumes (gitignored)
-│   ├── .env                       # Environment variables
-│   ├── package.json
-│   └── server.js                  # Express entry point
-│
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   │
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Navbar.js          # Top navigation bar
-│   │   │   ├── Navbar.css
-│   │   │   ├── ResumeUpload.js    # Drag & drop upload
-│   │   │   ├── ResumeUpload.css
-│   │   │   ├── AnalysisResult.js  # Score & feedback display
-│   │   │   ├── AnalysisResult.css
-│   │   │   └── ProtectedRoute.js  # Auth guard wrapper
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Login.js           # Login page
-│   │   │   ├── Register.js        # Registration page
-│   │   │   ├── Auth.css           # Shared auth styles
-│   │   │   ├── Dashboard.js       # Resume history & stats
-│   │   │   ├── Dashboard.css
-│   │   │   ├── Analyzer.js        # Main analysis page
-│   │   │   └── Analyzer.css
-│   │   │
-│   │   ├── services/
-│   │   │   ├── api.js             # Axios instance with interceptors
-│   │   │   ├── authService.js     # Auth API calls
-│   │   │   └── resumeService.js   # Resume & AI API calls
-│   │   │
-│   │   ├── context/
-│   │   │   └── AuthContext.js     # Auth state management
-│   │   │
-│   │   ├── App.js                 # Root component with routing
-│   │   ├── index.js               # React entry point
-│   │   └── index.css              # Global design system
-│   │
-│   └── package.json
-│
-└── README.md
-```
-
----
+An intelligent, full-stack web application that analyzes resumes using **Google Gemini AI**. Upload your resume (PDF/DOCX), get an instant AI-powered score, actionable suggestions, and job-match insights.
 
 ## ✨ Features
 
-- **Resume Upload** — Drag & drop PDF/DOCX files (max 5MB)
-- **AI Analysis** — Powered by Google Gemini 1.5 Flash
-- **Section Scores** — Contact Info, Experience, Education, Skills, Formatting
-- **Overall Score** — Weighted 0-100 score with visual progress indicators
-- **Job Matching** — Paste a job description to get a match score
-- **Keyword Detection** — Identifies relevant resume keywords
-- **Improvement Suggestions** — AI-generated actionable recommendations
-- **User Auth** — JWT-based registration & login
-- **Resume History** — Dashboard with all past analyses
-- **Responsive UI** — Works on desktop & mobile
+- 🔐 **User Authentication** — Secure register/login with JWT tokens
+- 📤 **Resume Upload** — Drag & drop PDF or DOCX files
+- 🤖 **AI Analysis** — Powered by Google Gemini for deep resume insights
+- 📊 **Match Score** — See how well your resume matches a job description
+- 💡 **Smart Suggestions** — Get AI-powered improvement recommendations
+- 📋 **Dashboard** — Manage and review all your analyzed resumes
+- 🎨 **Modern UI** — Sleek, responsive React frontend
 
----
+## 🛠 Tech Stack
 
-## 🚀 Getting Started
+| Layer      | Technology                          |
+|------------|-------------------------------------|
+| Frontend   | React 18, React Router, Axios       |
+| Backend    | Node.js, Express.js                 |
+| Database   | MongoDB Atlas (Mongoose)            |
+| AI Engine  | Google Gemini AI                    |
+| Auth       | JWT + bcrypt                        |
+| Hosting    | Vercel (frontend) + Render (backend)|
+
+## 🚀 Live Demo
+
+**🔗 [Open Resume Analyzer](https://resume-analyzer-mmanusham.vercel.app)**
+
+> Anyone can click the link above to use the app — just register and start analyzing!
+
+## 📁 Project Structure
+
+```
+Resume-Analyzer/
+├── backend/
+│   ├── config/          # Database configuration
+│   ├── controllers/     # Route handlers (auth, resume, AI)
+│   ├── middleware/       # JWT auth & file upload middleware
+│   ├── models/          # Mongoose schemas (User, Resume)
+│   ├── routes/          # Express routes
+│   ├── services/        # AI & parser services
+│   ├── server.js        # Express server entry point
+│   └── package.json
+├── frontend/
+│   ├── public/          # Static assets
+│   ├── src/
+│   │   ├── components/  # Reusable React components
+│   │   ├── context/     # Auth context provider
+│   │   ├── pages/       # Page components
+│   │   └── services/    # API service layer
+│   └── package.json
+├── vercel.json          # Vercel deployment config
+└── README.md
+```
+
+## 🏗 Local Development
 
 ### Prerequisites
+- Node.js 20+
+- MongoDB Atlas account (free tier)
+- Google Gemini API key
 
-- **Node.js** v18+
-- **MongoDB** (local or Atlas)
-- **Google Gemini API Key** — Get one at [Google AI Studio](https://aistudio.google.com/apikey)
-
-### 1. Clone & Install
+### Setup
 
 ```bash
-# Backend
+# Clone the repo
+git clone https://github.com/mmanusham2003-cpu/resume-analyzer.git
+cd resume-analyzer
+
+# Install backend dependencies
 cd backend
 npm install
 
-# Frontend
-cd ../frontend
-npm install
-```
+# Create backend/.env file with:
+# PORT=5000
+# MONGO_URI=your_mongodb_connection_string
+# JWT_SECRET=your_jwt_secret
+# JWT_EXPIRE=30d
+# GEMINI_API_KEY=your_gemini_api_key
 
-### 2. Configure Environment
+# Start backend
+npm run dev
 
-Edit `backend/.env`:
-
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/resume-analyzer
-JWT_SECRET=your_strong_secret_here
-JWT_EXPIRE=30d
-GEMINI_API_KEY=your_gemini_api_key_here
-NODE_ENV=development
-```
-
-### 3. Run
-
-```bash
-# Terminal 1 — Backend
-cd backend
-node server.js
-
-# Terminal 2 — Frontend
+# In a new terminal — install & start frontend
 cd frontend
+npm install
 npm start
 ```
 
-The frontend runs on `http://localhost:3000` and proxies API calls to `http://localhost:5000`.
+The app will be available at `http://localhost:3000`
 
----
+## 🌐 Deployment
 
-## 📡 API Endpoints
+### Backend → Render (Free)
+1. Go to [render.com](https://render.com) → New Web Service
+2. Connect your GitHub repo → set root directory to `backend`
+3. Build command: `npm install`
+4. Start command: `node server.js`
+5. Add environment variables (MONGO_URI, JWT_SECRET, GEMINI_API_KEY, etc.)
 
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | `/api/auth/register` | Register a new user |
-| POST   | `/api/auth/login` | Login & get JWT token |
-| GET    | `/api/auth/me` | Get current user profile |
-
-### Resumes
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | `/api/resumes/upload` | Upload a resume (multipart) |
-| POST   | `/api/resumes/:id/analyze` | Parse + AI analyze a resume |
-| GET    | `/api/resumes` | List all user resumes |
-| GET    | `/api/resumes/:id` | Get single resume details |
-| DELETE | `/api/resumes/:id` | Delete a resume |
-
-### AI
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | `/api/ai/suggestions/:id` | Get AI improvement suggestions |
-| POST   | `/api/ai/match/:id` | Re-analyze with job description |
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, React Router, Axios, Framer Motion, react-dropzone |
-| Backend | Node.js, Express, Mongoose |
-| Database | MongoDB |
-| AI | Google Gemini 1.5 Flash |
-| Auth | JWT + bcryptjs |
-| File Parsing | pdf-parse, mammoth |
-| Upload | multer |
-
----
+### Frontend → Vercel (Free)
+1. Go to [vercel.com](https://vercel.com) → Import GitHub repo
+2. Vercel auto-detects `vercel.json` config
+3. API calls are proxied to Render via rewrites
+4. You get one single link: `https://your-app.vercel.app`
 
 ## 📝 License
 
-MIT
+MIT License — feel free to use, modify, and share!
+
+---
+
+Built with ❤️ by [mmanusham2003-cpu](https://github.com/mmanusham2003-cpu)

@@ -10,8 +10,26 @@ const app = express();
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
+
+// CORS — allow Vercel frontend + localhost for dev
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      return callback(null, true);
+    }
+    // Also allow any *.vercel.app origin for preview deployments
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 
@@ -27,9 +45,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resumes", resumeRoutes);   // matches frontend's /api/resumes
 app.use("/api/ai", aiRoutes);
 
-// Test Route
+// Health-check / test route
 app.get("/", (req, res) => {
-  res.send("Resume Analyzer API is running...");
+  res.json({ status: "ok", message: "Resume Analyzer API is running 🚀" });
 });
 
 // Global error handler
@@ -52,3 +70,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+module.exports = app;

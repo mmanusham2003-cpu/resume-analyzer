@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://resume-analyzer-2-jsq6.onrender.com/",
+  "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",
